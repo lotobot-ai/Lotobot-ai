@@ -533,21 +533,12 @@
         window.location.href = 'admin.html';
       });
       
-      document.getElementById('logoutBtn').addEventListener('click', function() {
-        if (confirm('Deseja realmente sair?')) {
-          localStorage.removeItem('lotobot_token');
-          localStorage.removeItem('lotobot_token_expiry');
-          localStorage.removeItem('lotobot_user_plan');
-          localStorage.removeItem('isAdmin');
-          window.location.href = 'login.html';
-        }
+      
       });
       
-      // Adicionar mensagem de boas-vindas
-      addLog('Bem-vindo ao AI LotoBot! Você está autenticado.');
-    });
-
-    const CONFIGS = {
+      
+    
+      const CONFIGS = {
       'Mega-Sena': {numbers: 6, maxNum: 60, minNum: 1, apiId: 'megasena', fileName: 'mega_sena_results.json'},
       'Lotofácil': {numbers: 15, maxNum: 25, minNum: 1, apiId: 'lotofacil', fileName: 'lotofacil_results.json'},
       'Lotomania': {numbers: 50, maxNum: 100, minNum: 0, apiId: 'lotomania', fileName: 'lotomania_results.json'},
@@ -762,51 +753,50 @@
     }
 
     // Função para preparar os dados para o modelo LSTM
-    function prepareDataForLSTM(results, lottery) {
-      const {numbers, maxNum, minNum = 1} = CONFIGS[lottery];
-      
-      // Extrair apenas os números sorteados de cada concurso
-      const sequences = results.map(result => {
-        const numbers = [];
-        for (let i = 1; i <= CONFIGS[lottery].numbers; i++) {
-          let num = parseInt(result[`Bola${i}`]);
-          if (!isNaN(num)) {
-            // Para Lotomania, garantir que está no range 0-99
-            if (lottery === 'Lotomania' && num === 100) {
-              num = 0;
-            }
-            numbers.push(num);
-          }
+function prepareDataForLSTM(results, lottery) {
+  const {numbers, maxNum, minNum = 1} = CONFIGS[lottery];
+  
+  // Extrair apenas os números sorteados de cada concurso
+  const sequences = results.map(result => {
+    const numbers = [];
+    for (let i = 1; i <= CONFIGS[lottery].numbers; i++) {
+      let num = parseInt(result[`Bola${i}`]);
+      if (!isNaN(num)) {
+        // Para Lotomania, garantir que está no range 0-99
+        if (lottery === 'Lotomania' && num === 100) {
+          num = 0;
         }
-        return numbers.sort((a,
-        b) => a - b);
-      });
-      
-      // Converter para one-hot encoding
-      const oneHotSequences = sequences.map(seq => {
-        const oneHot = Array(maxNum).fill(0);
-        seq.forEach(num => {
-          // Para Lotomania: índice direto (0-99), para outras: num-1
-          const index = lottery === 'Lotomania' ? num : num - 1;
-          if (index >= 0 && index < maxNum) {
-            oneHot[index] = 1;
-          }
-        });
-        return oneHot;
-      });
-    
-      
-      // Criar pares de entrada/saída para treinamento
-      const X = [];
-      const y = [];
-            
-      for (let i = 0; i < oneHotSequences.length - 1; i++) {
-        X.push(oneHotSequences[i]);
-        y.push(oneHotSequences[i + 1]);
+        numbers.push(num);
       }
-      
-      return {X, y, sequences};
     }
+    return numbers.sort((a, b) => a - b); // LINHA CORRIGIDA
+  });
+  
+  // Converter para one-hot encoding
+  const oneHotSequences = sequences.map(seq => {
+    const oneHot = Array(maxNum).fill(0);
+    seq.forEach(num => {
+      // Para Lotomania: índice direto (0-99), para outras: num-1
+      const index = lottery === 'Lotomania' ? num : num - 1;
+      if (index >= 0 && index < maxNum) {
+        oneHot[index] = 1;
+      }
+    });
+    return oneHot;
+  });
+
+  // Criar pares de entrada/saída para treinamento
+  const X = [];
+  const y = [];
+        
+  for (let i = 0; i < oneHotSequences.length - 1; i++) {
+    X.push(oneHotSequences[i]);
+    y.push(oneHotSequences[i + 1]);
+  }
+  
+  return {X, y, sequences};
+}
+
 
     // Função para criar e treinar o modelo LSTM
     async function trainLSTMModel(X, y, lottery) {
@@ -949,7 +939,7 @@
         
         // Combinar previsão do modelo com análise de frequência
         const combinedScores = Array(maxNum).fill(0);
-        
+
         for (let i = 0; i < maxNum; i++) {
           // Normalizar frequência
           const freqScore = frequency[i + 1] / Math.max(...frequency);
@@ -960,13 +950,15 @@
           
           // Combinar scores com mais aleatoriedade e menos overfitting
           combinedScores[i] = (modelScore * 0.25) + (freqScore * 0.15) + (recencyScore * 0.15) + (Math.random() * 0.45);
-
+        } // ADICIONAR ESTA CHAVE DE FECHAMENTO
         
         // Converter para array de pares [número, score]
         const numberScores = combinedScores.map((score, index) => {
           const number = lottery === 'Lotomania' ? index : index + 1;
           return [number, score];
         });
+                
+        
         
         // Ordenar por score (decrescente)
         numberScores.sort((a, b) => b[1] - a[1]);
@@ -1419,13 +1411,27 @@ rado com sucesso!`);
       }
     });
 
+    // Event listener para o botão Sair
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      if (confirm('Deseja realmente sair?')) {
+    localStorage.removeItem('lotobot_token');
+    localStorage.removeItem('lotobot_token_expiry');
+    localStorage.removeItem('lotobot_user_plan');
+    localStorage.removeItem('isAdmin');
+    window.location.href = 'login.html';
+  }
+});
+
+
     // Adicionar informações de ajuda
     addLog('💡 Dicas:');
     addLog('• Ctrl+R: Mostrar/ocultar robô LSTM');
     addLog('• Ctrl+S: Mostrar estatísticas rápidas');
     addLog('• Use IA para análise avançada com redes neurais');
     addLog('• Atualize os resultados regularmente para melhor precisão');
+    addLog('Bem-vindo ao AI LotoBot! Você está autenticado.');
 
+    
   </script>
 </body>
 </html>
