@@ -494,7 +494,7 @@
           localStorage.removeItem('lotobot_token_expiry');
           localStorage.removeItem('lotobot_user_plan');
           
-          alert('Seu token foi revogado pelo administrador. Você será redirecionado para o login.');
+          alert('Seu token foi revogado pelo administrador. Você será redirecionado para o index.');
           window.location.href = 'index.html';
           return false;
         }
@@ -518,8 +518,8 @@
       
       // Verificar se o token é válido
       if (!storedToken || !tokenExpiry || new Date(tokenExpiry) <= new Date()) {
-        // Token inválido ou expirado, redirecionar para login
-        window.location.href = 'login.html';
+        // Token inválido ou expirado, redirecionar para index
+        window.location.href = 'index.html';
         return;
       }
       
@@ -1418,7 +1418,7 @@ rado com sucesso!`);
     localStorage.removeItem('lotobot_token_expiry');
     localStorage.removeItem('lotobot_user_plan');
     localStorage.removeItem('isAdmin');
-    window.location.href = 'login.html';
+    window.location.href = 'index.html';
   }
 });
 
