@@ -366,7 +366,7 @@
       // Verificar se é administrador e se o token é válido
       if (!storedToken || isAdmin !== 'true' || !tokenExpiry || new Date(tokenExpiry) <= new Date()) {
         // Não é admin ou token expirado, redirecionar para login
-        window.location.href = 'login.html?redirect=admin';
+        window.location.href = 'index.html?redirect=admin';
         return;
       }
 
@@ -376,7 +376,7 @@
 
       // Configurar botão de voltar para página principal
       document.getElementById('homeBtn').addEventListener('click', function() {
-        window.location.href = 'index.html';
+        window.location.href = 'app.html';
       });
 
       // Configurar botão de logout
