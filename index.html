@@ -35,7 +35,7 @@
       color: var(--text-color);
     }
     
-    /* Estrelas de fundo */
+    /* Estrelas de fundo - Simplificado para mobile */
     .stars {
       position: fixed;
       top: 0;
@@ -52,7 +52,7 @@
       opacity: 0.8;
     }
     
-    /* Estrelas cadentes */
+    /* Estrelas cadentes - Simplificado */
     .shooting-star {
       position: absolute;
       width: 4px;
@@ -79,7 +79,7 @@
       }
     }
     
-    /* Efeito de grade digital */
+    /* Efeito de grade digital - Simplificado */
     .grid {
       position: fixed;
       top: 0;
@@ -87,42 +87,30 @@
       width: 100%;
       height: 100%;
       background-image: 
-        linear-gradient(rgba(0, 168, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 168, 255, 0.05) 1px, transparent 1px);
+        linear-gradient(rgba(0, 168, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 168, 255, 0.03) 1px, transparent 1px);
       background-size: 30px 30px;
       z-index: -1;
     }
     
     .login-container {
       background-color: var(--panel-bg);
-      padding: 40px;
+      padding: 30px;
       border-radius: var(--border-radius);
-      box-shadow: 0 0 30px rgba(0, 168, 255, 0.3), 
-                  0 0 60px rgba(0, 168, 255, 0.1);
+      box-shadow: 0 0 15px rgba(0, 168, 255, 0.3);
       width: 100%;
-      max-width: 450px;
-      backdrop-filter: blur(5px);
+      max-width: 380px;
       border: 1px solid rgba(0, 168, 255, 0.2);
-      animation: pulse 3s infinite alternate;
-    }
-    
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 30px rgba(0, 168, 255, 0.3), 
-                    0 0 60px rgba(0, 168, 255, 0.1);
-      }
-      100% {
-        box-shadow: 0 0 40px rgba(0, 168, 255, 0.5), 
-                    0 0 80px rgba(0, 168, 255, 0.2);
-      }
+      z-index: 10;
+      position: relative;
     }
     
     h1 {
       color: var(--neon-blue);
       text-align: center;
-      margin-bottom: 30px;
-      font-size: 2.5rem;
-      text-shadow: 0 0 10px rgba(0, 168, 255, 0.7);
+      margin-bottom: 25px;
+      font-size: 2.2rem;
+      text-shadow: 0 0 5px rgba(0, 168, 255, 0.5);
       letter-spacing: 2px;
       position: relative;
     }
@@ -133,13 +121,13 @@
       bottom: -10px;
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
+      width: 60px;
+      height: 2px;
       background: linear-gradient(to right, transparent, var(--neon-blue), transparent);
     }
     
     .form-group {
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       position: relative;
     }
     
@@ -174,7 +162,7 @@
     
     button {
       width: 100%;
-      padding: 14px;
+      padding: 12px;
       background: linear-gradient(45deg, #0072ff, var(--neon-blue));
       color: white;
       border: none;
@@ -191,30 +179,10 @@
     button:hover {
       background: linear-gradient(45deg, var(--neon-blue), #0072ff);
       transform: translateY(-2px);
-      box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
     }
     
     button:active {
       transform: translateY(0);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-    }
-    
-    button::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
-      transform: rotate(30deg);
-      transition: all 0.5s;
-      opacity: 0;
-    }
-    
-    button:hover::after {
-      opacity: 1;
-      transform: rotate(30deg) translate(-30%, -30%);
     }
     
     .message {
@@ -245,7 +213,7 @@
     
     .info-text {
       text-align: center;
-      margin-top: 25px;
+      margin-top: 20px;
       font-size: 0.9rem;
       color: rgba(255, 255, 255, 0.7);
       line-height: 1.5;
@@ -253,38 +221,65 @@
     
     .ai-icon {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       font-size: 3rem;
       color: var(--neon-blue);
+    }
+    
+    .access-button {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 15px;
+      background: linear-gradient(45deg, #0072ff, var(--neon-blue));
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
     }
     
     /* Responsividade */
     @media (max-width: 600px) {
       .login-container {
-        padding: 25px;
-        margin: 0 15px;
-      }
-      
-      h1 {
-        font-size: 2rem;
-      }
-      
-      .ai-icon {
-        font-size: 2.5rem;
-      }
-    }
-    
-    @media (max-width: 400px) {
-      .login-container {
         padding: 20px;
+        margin: 0 15px;
+        max-width: 320px;
       }
       
       h1 {
         font-size: 1.8rem;
       }
       
+      .ai-icon {
+        font-size: 2.2rem;
+      }
+      
+      .ai-icon svg {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      .login-container {
+        padding: 15px;
+        max-width: 280px;
+      }
+      
+      h1 {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+      }
+      
       input, button {
         padding: 10px;
+      }
+      
+      .form-group {
+        margin-bottom: 15px;
       }
     }
   </style>
@@ -314,15 +309,25 @@
     
     <div id="message" class="message" style="display: none;"></div>
     
-    <p class="info-text">
-      Para adquirir um token de acesso, entre em contato com o administrador</p>
+    <div class="info-text">
+      <a href="#" class="access-button" onclick="window.location.href='contato.html'">Adquirir Acesso</a>
+    </div>
   </div>
   
   <script>
     // Criar estrelas de fundo
     document.addEventListener('DOMContentLoaded', function() {
-      createStars();
-      createShootingStars();
+      // Detectar se é dispositivo móvel
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      // Reduzir efeitos em dispositivos móveis
+      if (isMobile) {
+        createStars(50); // Menos estrelas para dispositivos móveis
+        createShootingStars(2); // Menos estrelas cadentes
+      } else {
+        createStars(150);
+        createShootingStars(5);
+      }
       
       // Verificar se já está logado
       const storedToken = localStorage.getItem('lotobot_token');
@@ -344,11 +349,11 @@
       }
     });
     
-    function createStars() {
+    function createStars(count) {
       const starsContainer = document.getElementById('stars');
-      const starsCount = 150;
+      starsContainer.innerHTML = ''; // Limpar estrelas existentes
       
-      for (let i = 0; i < starsCount; i++) {
+      for (let i = 0; i < count; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
         
@@ -361,184 +366,195 @@
         star.style.left = `${Math.random() * 100}%`;
         star.style.top = `${Math.random() * 100}%`;
         
-        // Brilho pulsante
-        star.style.animation = `pulse ${2 + Math.random() * 3}s infinite alternate`;
-        
         starsContainer.appendChild(star);
       }
     }
     
-    function createShootingStars() {
+    function createShootingStars(count) {
       const starsContainer = document.getElementById('stars');
       
-      // Criar 5 estrelas cadentes
-      for (let i = 0; i < 5; i++) {
-        const shootingStar = document.createElement('div');
-        shootingStar.classList.add('shooting-star');
-        
-        // Posição inicial aleatória
-        shootingStar.style.left = `${Math.random() * 100}%`;
-        shootingStar.style.top = `${Math.random() * 30}%`;
-        
-        // Tamanho aleatório
-        const size = 2 + Math.random() * 3;
-        shootingStar.style.width = `${size * 10}px`;
-        shootingStar.style.height = `${size}px`;
-        
-        // Atraso aleatório
-        const delay = Math.random() * 15;
-        shootingStar.style.animationDelay = `${delay}s`;
-        
-        // Duração aleatória
-        const duration = 3 + Math.random() * 4;
-        shootingStar.style.animationDuration = `${duration}s`;
-        
-        starsContainer.appendChild(shootingStar);
-      }
+      // Limpar estrelas cadentes existentes
+      const existingShootingStars = document.querySelectorAll('.shooting-star');
+      existingShootingStars.forEach(star => star.remove());
       
-      // Adicionar mais estrelas cadentes periodicamente
-      setInterval(() => {
-        const shootingStar = document.createElement('div');
-        shootingStar.classList.add('shooting-star');
-        
-        shootingStar.style.left = `${Math.random() * 100}%`;
-        shootingStar.style.top = `${Math.random() * 30}%`;
-        
-        const size = 2 + Math.random() * 3;
-        shootingStar.style.width = `${size * 10}px`;
-        shootingStar.style.height = `${size}px`;
-        
-        const duration = 3 + Math.random() * 4;
-        shootingStar.style.animationDuration = `${duration}s`;
-        
-        starsContainer.appendChild(shootingStar);
-        
-        // Remover após a animação para não sobrecarregar o DOM
-        setTimeout(() => {
-          shootingStar.remove();
-        }, duration * 1000);
-      }, 3000);
-    }
-    
-    function validateToken() {
-      const token = document.getElementById('token').value.trim();
-      const messageDiv = document.getElementById('message');
-      
-      if (!token) {
-        showMessage('Por favor, digite um token de acesso.', 'error');
-        return;
-      }
-      
-      // Verificar se é o token de administrador
-      if (token === 'ADM_LOTOBOT_252023@#$') {
-        // Token de administrador
-        const expiryDate = new Date();
-        expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Validade de 1 ano
-        
-        localStorage.setItem('lotobot_token', token);
-        localStorage.setItem('lotobot_token_expiry', expiryDate.toISOString());
-        localStorage.setItem('isAdmin', 'true');
-        
-        showMessage('Login de administrador bem-sucedido! Redirecionando...', 'success');
-        setTimeout(() => {
-          window.location.href = 'admin.html';
-        }, 1500);
-        return;
-      }
-      
-      // Para fins de demonstração, vamos simular uma verificação de token
-      // Em produção, isso seria feito com uma chamada à API
-      const testMode = true;
-      
-      if (testMode) {
-        // Tokens de teste
-        const mockTokens = {
-          'TOKEN_123456': { plan: 'standard', expiry: new Date(2099, 11, 31).toISOString() },
-          'TOKEN_789012': { plan: 'standard', expiry: new Date(2099, 11, 31).toISOString() },
-          'TOKEN_EXPIRED': { plan: 'standard', expiry: new Date(2020, 0, 1).toISOString() }
-        };
-        
-        // Verificar se o token começa com "TOKEN_" (formato gerado pelo painel admin)
-        if (token.startsWith('TOKEN_')) {
-          // Se não estiver nos tokens de teste mas tiver o formato correto, considerar válido
-          // Isso permite que tokens gerados no painel admin funcionem
-          if (!mockTokens[token]) {
-            const expiryDate = new Date();
-            expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Validade de 1 ano
+            // Criar estrelas cadentes
+            for (let i = 0; i < count; i++) {
+              const shootingStar = document.createElement('div');
+              shootingStar.classList.add('shooting-star');
+              
+              // Posição inicial aleatória
+              shootingStar.style.left = `${Math.random() * 100}%`;
+              shootingStar.style.top = `${Math.random() * 30}%`;
+              
+              // Tamanho aleatório
+              const size = 2 + Math.random() * 3;
+              shootingStar.style.width = `${size * 10}px`;
+              shootingStar.style.height = `${size}px`;
+              
+              // Atraso aleatório
+              const delay = Math.random() * 15;
+              shootingStar.style.animationDelay = `${delay}s`;
+              
+              // Duração aleatória
+              const duration = 3 + Math.random() * 4;
+              shootingStar.style.animationDuration = `${duration}s`;
+              
+              starsContainer.appendChild(shootingStar);
+            }
             
-            localStorage.setItem('lotobot_token', token);
-            localStorage.setItem('lotobot_token_expiry', expiryDate.toISOString());
-            localStorage.setItem('lotobot_user_plan', 'standard');
-            localStorage.setItem('isAdmin', 'false');
+            // Em dispositivos móveis, limitamos a criação de novas estrelas
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
-            showMessage('Login bem-sucedido! Redirecionando...', 'success');
-            setTimeout(() => {
-              window.location.href = 'index.html';
-            }, 1500);
-            return;
-          }
-        }
-        
-        if (mockTokens[token]) {
-          const tokenInfo = mockTokens[token];
-          const expiryDate = new Date(tokenInfo.expiry);
-          
-          if (expiryDate <= new Date()) {
-            showMessage('Este token expirou. Por favor, adquira um novo token.', 'error');
-            return;
+            if (!isMobile) {
+              // Adicionar mais estrelas cadentes periodicamente apenas em desktop
+              const shootingStarInterval = setInterval(() => {
+                // Limitar o número total de estrelas cadentes no DOM
+                const currentStars = document.querySelectorAll('.shooting-star');
+                if (currentStars.length > 10) return;
+                
+                const shootingStar = document.createElement('div');
+                shootingStar.classList.add('shooting-star');
+                
+                shootingStar.style.left = `${Math.random() * 100}%`;
+                shootingStar.style.top = `${Math.random() * 30}%`;
+                
+                const size = 2 + Math.random() * 3;
+                shootingStar.style.width = `${size * 10}px`;
+                shootingStar.style.height = `${size}px`;
+                
+                const duration = 3 + Math.random() * 4;
+                shootingStar.style.animationDuration = `${duration}s`;
+                
+                starsContainer.appendChild(shootingStar);
+                
+                // Remover após a animação para não sobrecarregar o DOM
+                setTimeout(() => {
+                  shootingStar.remove();
+                }, duration * 1000);
+              }, 5000); // Intervalo maior para reduzir carga
+            }
           }
           
-          // Token válido
-          localStorage.setItem('lotobot_token', token);
-          localStorage.setItem('lotobot_token_expiry', tokenInfo.expiry);
-          localStorage.setItem('lotobot_user_plan', tokenInfo.plan);
-          localStorage.setItem('isAdmin', 'false');
+          function validateToken() {
+            const token = document.getElementById('token').value.trim();
+            const messageDiv = document.getElementById('message');
+            
+            if (!token) {
+              showMessage('Por favor, digite um token de acesso.', 'error');
+              return;
+            }
+            
+            // Verificar se é o token de administrador
+            if (token === 'ADM_LOTOBOT_252023@#$') {
+              // Token de administrador
+              const expiryDate = new Date();
+              expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Validade de 1 ano
+              
+              localStorage.setItem('lotobot_token', token);
+              localStorage.setItem('lotobot_token_expiry', expiryDate.toISOString());
+              localStorage.setItem('isAdmin', 'true');
+              
+              showMessage('Login de administrador bem-sucedido! Redirecionando...', 'success');
+              setTimeout(() => {
+                window.location.href = 'admin.html';
+              }, 1500);
+              return;
+            }
+            
+            // Para fins de demonstração, vamos simular uma verificação de token
+            // Em produção, isso seria feito com uma chamada à API
+            const testMode = true;
+            
+            if (testMode) {
+              // Tokens de teste
+              const mockTokens = {
+                'TOKEN_123456': { plan: 'standard', expiry: new Date(2099, 11, 31).toISOString() },
+                'TOKEN_789012': { plan: 'standard', expiry: new Date(2099, 11, 31).toISOString() },
+                'TOKEN_EXPIRED': { plan: 'standard', expiry: new Date(2020, 0, 1).toISOString() }
+              };
+              
+              // Verificar se o token começa com "TOKEN_" (formato gerado pelo painel admin)
+              if (token.startsWith('TOKEN_')) {
+                // Se não estiver nos tokens de teste mas tiver o formato correto, considerar válido
+                // Isso permite que tokens gerados no painel admin funcionem
+                if (!mockTokens[token]) {
+                  const expiryDate = new Date();
+                  expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Validade de 1 ano
+                  
+                  localStorage.setItem('lotobot_token', token);
+                  localStorage.setItem('lotobot_token_expiry', expiryDate.toISOString());
+                  localStorage.setItem('lotobot_user_plan', 'standard');
+                  localStorage.setItem('isAdmin', 'false');
+                  
+                  showMessage('Login bem-sucedido! Redirecionando...', 'success');
+                  setTimeout(() => {
+                    window.location.href = 'index.html';
+                  }, 1500);
+                  return;
+                }
+              }
+              
+              if (mockTokens[token]) {
+                const tokenInfo = mockTokens[token];
+                const expiryDate = new Date(tokenInfo.expiry);
+                
+                if (expiryDate <= new Date()) {
+                  showMessage('Este token expirou. Por favor, adquira um novo token.', 'error');
+                  return;
+                }
+                
+                // Token válido
+                localStorage.setItem('lotobot_token', token);
+                localStorage.setItem('lotobot_token_expiry', tokenInfo.expiry);
+                localStorage.setItem('lotobot_user_plan', tokenInfo.plan);
+                localStorage.setItem('isAdmin', 'false');
+                
+                showMessage('Login bem-sucedido! Redirecionando...', 'success');
+                setTimeout(() => {
+                  window.location.href = 'index.html';
+                }, 1500);
+                return;
+              }
+              
+              showMessage('Token inválido. Por favor, verifique e tente novamente.', 'error');
+              return;
+            }
+            
+            // Código para verificação real com o backend
+            fetch(`https://lotobot-backend.onrender.com/validate-token`, {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: JSON.stringify({ token })
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                localStorage.setItem('lotobot_token', token);
+                localStorage.setItem('lotobot_token_expiry', data.expiry);
+                localStorage.setItem('lotobot_user_plan', data.plan || 'standard');
+                localStorage.setItem('isAdmin', 'false');
+                
+                showMessage('Login bem-sucedido! Redirecionando...', 'success');
+                setTimeout(() => {
+                  window.location.href = 'index.html';
+                }, 1500);
+              } else {
+                showMessage(data.message || 'Token inválido. Por favor, verifique e tente novamente.', 'error');
+              }
+            })
+            .catch(error => {
+              console.error('Erro:', error);
+              showMessage('Erro de conexão. Por favor, tente novamente mais tarde.', 'error');
+            });
+          }
           
-          showMessage('Login bem-sucedido! Redirecionando...', 'success');
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1500);
-          return;
-        }
-        
-        showMessage('Token inválido. Por favor, verifique e tente novamente.', 'error');
-        return;
-      }
+          function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+          }
+        </script>
+      </body>
+      </html>
       
-      // Código para verificação real com o backend
-      fetch(`https://lotobot-backend.onrender.com/validate-token`, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ token })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          localStorage.setItem('lotobot_token', token);
-          localStorage.setItem('lotobot_token_expiry', data.expiry);
-          localStorage.setItem('lotobot_user_plan', data.plan || 'standard');
-          localStorage.setItem('isAdmin', 'false');
-          
-          showMessage('Login bem-sucedido! Redirecionando...', 'success');
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1500);
-        } else {
-          showMessage(data.message || 'Token inválido. Por favor, verifique e tente novamente.', 'error');
-        }
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-        showMessage('Erro de conexão. Por favor, tente novamente mais tarde.', 'error');
-      });
-    }
-    
-    function showMessage(text, type) {
-      const messageDiv = document.getElementById('message');
-      messageDiv.textContent = text;
-      messageDiv.className = `message ${type}`;
-      messageDiv.style.display = 'block';
-    }
-  </script>
-</body>
-</html>
