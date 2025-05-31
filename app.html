@@ -9,12 +9,14 @@
   <style>
     /* Estilos adicionais apenas para os elementos de autenticação */
     .auth-controls {
-      position: absolute;
+      position: fixed;
       top: 20px;
-      right: 20px;
+      width: 100%;
       z-index: 1000;
       display: flex;
-      gap: 10px;
+      justify-content: space-between;
+      padding: 0 20px;
+      box-sizing: border-box;
     }
     .auth-button {
       background-color: rgba(0, 0, 0, 0.7);
@@ -353,6 +355,25 @@
 
     /* Responsividade */
     @media (max-width: 768px) {
+      /* Ajustes para os botões de autenticação em dispositivos móveis */
+      .auth-controls {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 2000; /* Aumentado para garantir que fique acima de outros elementos */
+        display: flex;
+        gap: 8px; /* Espaçamento adequado entre botões */
+      }
+      
+      .auth-button {
+        padding: 8px 12px; /* Botões um pouco maiores para facilitar o toque */
+        font-size: 13px; /* Texto mais legível */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra para destacar os botões */
+        min-width: 60px; /* Largura mínima para garantir área de toque adequada */
+        text-align: center; /* Centralizar texto */
+      }
+      
+      /* Ajustes para o robô */
       .robot-container {
         bottom: 10px;
         right: 10px;
@@ -376,9 +397,16 @@
 <body>
   <!-- Controles de autenticação -->
   <div class="auth-controls">
-    <button id="adminBtn" class="auth-button admin-button" style="display: none;">Painel Admin</button>
-    <button id="logoutBtn" class="auth-button logout-button">Sair</button>
+    <div>
+      <button id="adminBtn" class="auth-button admin-button" style="display: none;">Painel Admin</button>
+    </div>
+    <div>
+      <button id="logoutBtn" class="auth-button logout-button">Sair</button>
+    </div>
   </div>
+  
+  <!-- Marca d'água do título -->
+  <div class="watermark-title" id="watermarkTitle">AI LotoBot</div>
 
   <div class="circuit-bg"></div>
   <div class="code-lines" id="code-lines"></div>
@@ -1430,8 +1458,26 @@ rado com sucesso!`);
     addLog('• Use IA para análise avançada com redes neurais');
     addLog('• Atualize os resultados regularmente para melhor precisão');
     addLog('Bem-vindo ao AI LotoBot! Você está autenticado.');
-
     
+    // Inicializar a animação da marca d'água
+    initWatermarkAnimation();
+    
+    // Função para animar a marca d'água
+    function initWatermarkAnimation() {
+      const watermark = document.getElementById('watermarkTitle');
+      if (!watermark) return;
+      
+      // Posições aleatórias a cada 3 segundos
+      setInterval(() => {
+        const maxX = window.innerWidth - 200;
+        const maxY = window.innerHeight - 100;
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+        
+        watermark.style.left = randomX + 'px';
+        watermark.style.top = randomY + 'px';
+      }, 3000);
+    }
   </script>
 </body>
 </html>

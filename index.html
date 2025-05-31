@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - AI LotoBot</title>
+  <script src="admin-auth.js"></script>
   <style>
     :root {
       --neon-blue: #00a8ff;
@@ -377,184 +378,176 @@
       const existingShootingStars = document.querySelectorAll('.shooting-star');
       existingShootingStars.forEach(star => star.remove());
       
-            // Criar estrelas cadentes
-            for (let i = 0; i < count; i++) {
-              const shootingStar = document.createElement('div');
-              shootingStar.classList.add('shooting-star');
-              
-              // Posição inicial aleatória
-              shootingStar.style.left = `${Math.random() * 100}%`;
-              shootingStar.style.top = `${Math.random() * 30}%`;
-              
-              // Tamanho aleatório
-              const size = 2 + Math.random() * 3;
-              shootingStar.style.width = `${size * 10}px`;
-              shootingStar.style.height = `${size}px`;
-              
-              // Atraso aleatório
-              const delay = Math.random() * 15;
-              shootingStar.style.animationDelay = `${delay}s`;
-              
-              // Duração aleatória
-              const duration = 3 + Math.random() * 4;
-              shootingStar.style.animationDuration = `${duration}s`;
-              
-              starsContainer.appendChild(shootingStar);
-            }
-            
-            // Em dispositivos móveis, limitamos a criação de novas estrelas
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            if (!isMobile) {
-              // Adicionar mais estrelas cadentes periodicamente apenas em desktop
-              const shootingStarInterval = setInterval(() => {
-                // Limitar o número total de estrelas cadentes no DOM
-                const currentStars = document.querySelectorAll('.shooting-star');
-                if (currentStars.length > 10) return;
-                
-                const shootingStar = document.createElement('div');
-                shootingStar.classList.add('shooting-star');
-                
-                shootingStar.style.left = `${Math.random() * 100}%`;
-                shootingStar.style.top = `${Math.random() * 30}%`;
-                
-                const size = 2 + Math.random() * 3;
-                shootingStar.style.width = `${size * 10}px`;
-                shootingStar.style.height = `${size}px`;
-                
-                const duration = 3 + Math.random() * 4;
-                shootingStar.style.animationDuration = `${duration}s`;
-                
-                starsContainer.appendChild(shootingStar);
-                
-                // Remover após a animação para não sobrecarregar o DOM
-                setTimeout(() => {
-                  shootingStar.remove();
-                }, duration * 1000);
-              }, 5000); // Intervalo maior para reduzir carga
-            }
-          }
-          
-          function validateToken() {
-            const token = document.getElementById('token').value.trim();
-            const messageDiv = document.getElementById('message');
-            
-            if (!token) {
-              showMessage('Por favor, digite um token de acesso.', 'error');
-              return;
-            }
-            
-            // Verificar se é o token de administrador
-            if (token === 'ADM_LOTOBOT_252023@#$') {
-              // Token de administrador
-              const expiryDate = new Date();
-              expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Validade de 1 ano
-              
-              localStorage.setItem('lotobot_token', token);
-              localStorage.setItem('lotobot_token_expiry', expiryDate.toISOString());
-              localStorage.setItem('isAdmin', 'true');
-              
-              showMessage('Login de administrador bem-sucedido! Redirecionando...', 'success');
-              setTimeout(() => {
-                window.location.href = 'admin.html';
-              }, 1500);
-              return;
-            }
-            
-            // Para fins de demonstração, vamos simular uma verificação de token
-            // Em produção, isso seria feito com uma chamada à API
-            const testMode = true;
-            
-            if (testMode) {
-              // Tokens de teste
-              const mockTokens = {
-                'TOKEN_123456': { plan: 'standard', expiry: new Date(2099, 11, 31).toISOString() },
-                'TOKEN_789012': { plan: 'standard', expiry: new Date(2099, 11, 31).toISOString() },
-                'TOKEN_EXPIRED': { plan: 'standard', expiry: new Date(2020, 0, 1).toISOString() }
-              };
-              
-              // Verificar se o token começa com "TOKEN_" (formato gerado pelo painel admin)
-              if (token.startsWith('TOKEN_')) {
-                // Se não estiver nos tokens de teste mas tiver o formato correto, considerar válido
-                // Isso permite que tokens gerados no painel admin funcionem
-                if (!mockTokens[token]) {
-                  const expiryDate = new Date();
-                  expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Validade de 1 ano
-                  
-                  localStorage.setItem('lotobot_token', token);
-                  localStorage.setItem('lotobot_token_expiry', expiryDate.toISOString());
-                  localStorage.setItem('lotobot_user_plan', 'standard');
-                  localStorage.setItem('isAdmin', 'false');
-                  
-                  showMessage('Login bem-sucedido! Redirecionando...', 'success');
-                  setTimeout(() => {
-                    window.location.href = 'index.html';
-                  }, 1500);
-                  return;
-                }
-              }
-              
-              if (mockTokens[token]) {
-                const tokenInfo = mockTokens[token];
-                const expiryDate = new Date(tokenInfo.expiry);
-                
-                if (expiryDate <= new Date()) {
-                  showMessage('Este token expirou. Por favor, adquira um novo token.', 'error');
-                  return;
-                }
-                
-                // Token válido
-                localStorage.setItem('lotobot_token', token);
-                localStorage.setItem('lotobot_token_expiry', tokenInfo.expiry);
-                localStorage.setItem('lotobot_user_plan', tokenInfo.plan);
-                localStorage.setItem('isAdmin', 'false');
-                
-                showMessage('Login bem-sucedido! Redirecionando...', 'success');
-                setTimeout(() => {
-                  window.location.href = 'index.html';
-                }, 1500);
-                return;
-              }
-              
-              showMessage('Token inválido. Por favor, verifique e tente novamente.', 'error');
-              return;
-            }
-            
-            // Código para verificação real com o backend
-            fetch(`https://lotobot-backend.onrender.com/validate-token`, {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify({ token })
-            })
-            .then(response => response.json())
-            .then(data => {
-              if (data.success) {
-                localStorage.setItem('lotobot_token', token);
-                localStorage.setItem('lotobot_token_expiry', data.expiry);
-                localStorage.setItem('lotobot_user_plan', data.plan || 'standard');
-                localStorage.setItem('isAdmin', 'false');
-                
-                showMessage('Login bem-sucedido! Redirecionando...', 'success');
-                setTimeout(() => {
-                  window.location.href = 'index.html';
-                }, 1500);
-              } else {
-                showMessage(data.message || 'Token inválido. Por favor, verifique e tente novamente.', 'error');
-              }
-            })
-            .catch(error => {
-              console.error('Erro:', error);
-              showMessage('Erro de conexão. Por favor, tente novamente mais tarde.', 'error');
-            });
-          }
-          
-          function showMessage(text, type) {
-            const messageDiv = document.getElementById('message');
-            messageDiv.textContent = text;
-            messageDiv.className = `message ${type}`;
-            messageDiv.style.display = 'block';
-          }
-        </script>
-      </body>
-      </html>
+      // Criar estrelas cadentes
+      for (let i = 0; i < count; i++) {
+        const shootingStar = document.createElement('div');
+        shootingStar.classList.add('shooting-star');
+        
+        // Posição inicial aleatória
+        shootingStar.style.left = `${Math.random() * 100}%`;
+        shootingStar.style.top = `${Math.random() * 30}%`;
+        
+        // Tamanho aleatório
+        const size = 2 + Math.random() * 3;
+        shootingStar.style.width = `${size * 10}px`;
+        shootingStar.style.height = `${size}px`;
+        
+        // Atraso aleatório
+        const delay = Math.random() * 15;
+        shootingStar.style.animationDelay = `${delay}s`;
+        
+        // Duração aleatória
+        const duration = 3 + Math.random() * 4;
+        shootingStar.style.animationDuration = `${duration}s`;
+        
+        starsContainer.appendChild(shootingStar);
+      }
       
+      // Em dispositivos móveis, limitamos a criação de novas estrelas
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (!isMobile) {
+        // Adicionar mais estrelas cadentes periodicamente apenas em desktop
+        const shootingStarInterval = setInterval(() => {
+          // Limitar o número total de estrelas cadentes no DOM
+          const currentStars = document.querySelectorAll('.shooting-star');
+          if (currentStars.length > 10) return;
+          
+          const shootingStar = document.createElement('div');
+          shootingStar.classList.add('shooting-star');
+          
+          shootingStar.style.left = `${Math.random() * 100}%`;
+          shootingStar.style.top = `${Math.random() * 30}%`;
+          
+          const size = 2 + Math.random() * 3;
+          shootingStar.style.width = `${size * 10}px`;
+          shootingStar.style.height = `${size}px`;
+          
+          const duration = 3 + Math.random() * 4;
+          shootingStar.style.animationDuration = `${duration}s`;
+          
+          starsContainer.appendChild(shootingStar);
+          
+          // Remover após a animação para não sobrecarregar o DOM
+          setTimeout(() => {
+            shootingStar.remove();
+          }, duration * 1000);
+        }, 5000); // Intervalo maior para reduzir carga
+      }
+    }
+    
+    function validateToken() {
+      const token = document.getElementById('token').value.trim();
+      const messageDiv = document.getElementById('message');
+      
+      if (!token) {
+        showMessage('Por favor, digite um token de acesso.', 'error');
+        return;
+      }
+      
+      // Verificar se é o token de administrador
+      if (AdminAuth.validateAdminToken(token)) {
+        AdminAuth.setupAdminSession(token);
+        showMessage('Login de administrador bem-sucedido! Redirecionando...', 'success');
+        setTimeout(() => {
+          window.location.href = 'admin.html';
+        }, 1500);
+        return;
+      }
+      
+      // Para fins de demonstração, vamos simular uma verificação de token
+      // Em produção, isso seria feito com uma chamada à API
+      const testMode = true;
+      
+      if (testMode) {
+        // Tokens de teste
+        const mockTokens = {
+          'TOKEN_123456': { plan: 'standard', expiry: new Date(2099, 11, 31).toISOString() },
+          'TOKEN_789012': { plan: 'standard', expiry: new Date(2099, 11, 31).toISOString() },
+          'TOKEN_EXPIRED': { plan: 'standard', expiry: new Date(2020, 0, 1).toISOString() }
+        };
+        
+        // Verificar se o token começa com "TOKEN_" (formato gerado pelo painel admin)
+        if (token.startsWith('TOKEN_')) {
+          // Se não estiver nos tokens de teste mas tiver o formato correto, considerar válido
+          // Isso permite que tokens gerados no painel admin funcionem
+          if (!mockTokens[token]) {
+            const expiryDate = new Date();
+            expiryDate.setFullYear(expiryDate.getFullYear() + 1); // Validade de 1 ano
+            
+            localStorage.setItem('lotobot_token', token);
+            localStorage.setItem('lotobot_token_expiry', expiryDate.toISOString());
+            localStorage.setItem('lotobot_user_plan', 'standard');
+            localStorage.setItem('isAdmin', 'false');
+            
+            showMessage('Login bem-sucedido! Redirecionando...', 'success');
+            setTimeout(() => {
+              window.location.href = 'app.html';
+            }, 1500);
+            return;
+          }
+        }
+        
+        if (mockTokens[token]) {
+          const tokenInfo = mockTokens[token];
+          const expiryDate = new Date(tokenInfo.expiry);
+          
+          if (expiryDate <= new Date()) {
+            showMessage('Este token expirou. Por favor, adquira um novo token.', 'error');
+            return;
+          }
+          
+          // Token válido
+          localStorage.setItem('lotobot_token', token);
+          localStorage.setItem('lotobot_token_expiry', tokenInfo.expiry);
+          localStorage.setItem('lotobot_user_plan', tokenInfo.plan);
+          localStorage.setItem('isAdmin', 'false');
+          
+          showMessage('Login bem-sucedido! Redirecionando...', 'success');
+          setTimeout(() => {
+            window.location.href = 'app.html';
+          }, 1500);
+          return;
+        }
+        
+        showMessage('Token inválido. Por favor, verifique e tente novamente.', 'error');
+        return;
+      }
+      
+      // Código para verificação real com o backend
+      fetch(`https://lotobot-backend.onrender.com/validate-token`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ token })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem('lotobot_token', token);
+          localStorage.setItem('lotobot_token_expiry', data.expiry);
+          localStorage.setItem('lotobot_user_plan', data.plan || 'standard');
+          localStorage.setItem('isAdmin', 'false');
+          
+          showMessage('Login bem-sucedido! Redirecionando...', 'success');
+          setTimeout(() => {
+            window.location.href = 'app.html';
+          }, 1500);
+        } else {
+          showMessage(data.message || 'Token inválido. Por favor, verifique e tente novamente.', 'error');
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        showMessage('Erro de conexão. Por favor, tente novamente mais tarde.', 'error');
+      });
+    }
+    
+    function showMessage(text, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.className = `message ${type}`;
+      messageDiv.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
